@@ -5,15 +5,21 @@ import { gameMapDisplayModule } from "./baseModule/gameMapDisplayModule"
 import { frameBasedTimeModule } from "./baseModule/frameBasedTimeModule"
 import { gameObject } from "./gameObject/gameObject"
 import { Vector } from "./primitives/vector2D"
+import { tilemap } from "./interfaces/tilesetFormat";
+import { jsonTsBundleAssetModule } from "./baseModule/jsonTsBundleAssetModule"
 
 export class game extends gameModule
 {
     private viewport: HTMLCanvasElement;
-    private player: gameObject = new gameObject("./ressources/player.jpg");
+    private player: gameObject = new gameObject("./ressources/player.jpg", null, 0, 100);
+
+    public getDisplay(): gameMapDisplayModule { return this.display as gameMapDisplayModule; } 
 
     constructor(viewport: HTMLCanvasElement)
     {
         super();
+        this.assets = new jsonTsBundleAssetModule();
+
         this.viewport = viewport;
         this.display = new gameMapDisplayModule(this.viewport);
 
@@ -32,6 +38,8 @@ export class game extends gameModule
     {
         let newPos = this.player.getPosition().add(this.input.getDirection());
         this.player.setPosition(newPos.x, newPos.y);
+        this.getDisplay().mapCenter.x = newPos.x;
+        this.getDisplay().mapCenter.y = newPos.y;
 
         console.debug(newPos.x + ", " + newPos.y);
     }

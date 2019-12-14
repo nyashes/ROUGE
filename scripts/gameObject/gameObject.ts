@@ -1,5 +1,6 @@
 import { multistateSprite } from "./sprite";
 import { Vector } from "../primitives/vector2D"
+import { tilemap, tileset } from "../interfaces/tilesetFormat";
 
 export class gameObject 
 { 
@@ -8,9 +9,9 @@ export class gameObject
     private position: Vector = new Vector(0, 0);
     private r: number = 0;
 
-    constructor(textureSource: string)
+    constructor(textureSource: string|HTMLImageElement, tileset: tileset = null, tileIndex: number = 0, zIndex: number = 0)
     {
-        this.sprite = new multistateSprite(textureSource);
+        this.sprite = new multistateSprite(textureSource, tileset, tileIndex, zIndex);
         this.position = this.sprite.position;
     }
 
